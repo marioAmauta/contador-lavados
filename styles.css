@@ -1,3 +1,8 @@
+:root {
+  --header-height: 4rem;
+  --footer-height: 3rem;
+}
+
 html {
   box-sizing: border-box;
 }
@@ -39,7 +44,7 @@ body {
 }
 
 .header {
-  height: 5rem;
+  height: var(--header-height);
   position: sticky;
   top: 0;
   background-color: black;
@@ -52,14 +57,14 @@ body {
 .main {
   padding: 2rem 0;
   text-align: center;
-  height: calc(100dvh - 10rem);
+  height: calc(100dvh - var(--header-height) - var(--footer-height));
   width: 100%;
   margin: auto;
   overflow: auto;
 }
 
 .inner-container {
-  max-width: 20rem;
+  max-width: 22rem;
   margin: auto;
 }
 
@@ -142,7 +147,7 @@ body {
 .footer {
   position: absolute;
   bottom: 0;
-  height: 5rem;
+  height: var(--footer-height);
   width: 100%;
   background-color: black;
   color: white;

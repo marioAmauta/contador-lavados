@@ -1,24 +1,36 @@
+const initialStateDataName = 'initialStateData';
+
 const initialStateForm = document.getElementById('initialStateForm');
 const initialStateInfo = document.getElementById('initialStateInfo');
 const initialDataInfoContainer = document.getElementById('initialDataInfoContainer');
 
-const initialStateDataName = 'initialStateData';
-
-const finalStateContainer = document.getElementById('finalStateContainer');
 const finalStateForm = document.getElementById('finalStateForm');
+const finalStateInfo = document.getElementById('finalStateInfo');
+const finalDataInfoContainer = document.getElementById('finalDataInfoContainer');
+const finalStateContainer = document.getElementById('finalStateContainer');
 
 const resetButton = document.getElementById('resetButton');
 
 function setInitialStateInfo(data) {
-  const firstParagraph = initialDataInfoContainer.children[0].children[1];
-  const secondParagraph = initialDataInfoContainer.children[1].children[1];
-  const thirdParagraph = initialDataInfoContainer.children[2].children[1];
-  const fourthParagraph = initialDataInfoContainer.children[3].children[1];
+  const total = initialDataInfoContainer.children[0].children[1];
+  const programOne = initialDataInfoContainer.children[1].children[1];
+  const programTwo = initialDataInfoContainer.children[2].children[1];
+  const date = initialDataInfoContainer.children[3].children[1];
 
-  firstParagraph.textContent = data.startTotal;
-  secondParagraph.textContent = data.programOne;
-  thirdParagraph.textContent = data.programTwo;
-  fourthParagraph.textContent = data.recordDate;
+  total.textContent = data.startTotal;
+  programOne.textContent = data.programOne;
+  programTwo.textContent = data.programTwo;
+  date.textContent = data.recordDate;
+}
+
+function setFinalStateInfo(data) {
+  const total = finalDataInfoContainer.children[0].children[1];
+  const programOne = finalDataInfoContainer.children[1].children[1];
+  const programTwo = finalDataInfoContainer.children[2].children[1];
+
+  total.textContent = data.totalResult;
+  programOne.textContent = data.programOneResult;
+  programTwo.textContent = data.programTwoResult;
 }
 
 function checkInitialStateData() {
@@ -30,6 +42,7 @@ function checkInitialStateData() {
     initialStateInfo.classList.remove('display-none');
 
     finalStateContainer.classList.remove('display-none');
+    finalStateInfo.classList.add('display-none');
   } else {
     initialStateForm.reset();
     initialStateInfo.classList.add('display-none');
@@ -61,11 +74,21 @@ function handleFinalStateForm() {
     programTwo: finalStateForm[2].valueAsNumber
   };
 
+  const savedData = JSON.parse(localStorage.getItem(initialStateDataName));
+
   const resultData = {
-    totalResult: finalStateData.endTotal - shiftStartDataLocalStorage.startTotal,
-    programOneResult: finalStateData.programOne - shiftStartDataLocalStorage.programOne,
-    programTwoResult: finalStateData.programTwo - shiftStartDataLocalStorage.programTwo
+    totalResult: finalStateData.endTotal - savedData.startTotal,
+    programOneResult: finalStateData.programOne - savedData.programOne,
+    programTwoResult: finalStateData.programTwo - savedData.programTwo
   };
+
+  console.log(resultData);
+
+  setFinalStateInfo(resultData);
+
+  finalStateContainer.classList.remove('display-none');
+  finalStateForm.classList.add('display-none');
+  finalStateInfo.classList.remove('display-none');
 }
 
 document.addEventListener('DOMContentLoaded', () => {
