@@ -1,111 +1,152 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
   <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="X-UA-Compatible"
+      content="IE=edge"
+    />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0"
-    />
-    <meta
-      http-equiv="content-type"
-      content="text/html; charset=utf-8"
     />
     <title>Contador de Lavados</title>
     <link
       rel="stylesheet"
       href="styles.css"
-      type="text/css"
-      media="all"
     />
   </head>
   <body>
-    <header class="header">
-      <h1>Contador de Lavados</h1>
+    <header class="header flex-center">
+      <img
+        src="https://www.enex.cl/wp-content/uploads/2021/09/Grupo-233.png"
+        alt="lavapro-logo"
+        class="lavapro-logo"
+      />
     </header>
     <main class="main">
-      <section>
-        <h2>Inicio de Turno</h2>
-        <form
-          id="initialStateForm"
-          class="form"
-        >
-          <label for="start-total">Total Inicio</label>
-          <input
-            type="number"
-            name="start-total"
-            id="start-total"
-            required
-          />
-          <label for="start-program-one">Programa 1</label>
-          <input
-            type="number"
-            name="start-program-one"
-            id="start-program-one"
-            required
-          />
-          <label for="start-program-two">Programa 2</label>
-          <input
-            type="number"
-            name="start-program-two"
-            id="start-program-two"
-            required
-          />
-          <button
-            type="submit"
-            id="send-data-button"
+      <div class="inner-container">
+        <h1>Lavados</h1>
+        <section>
+          <h2>Inicio de Turno</h2>
+          <form
+            id="initialStateForm"
+            class="form"
           >
-            Guardar Datos
+            <p>
+              <label for="start-total">Total Inicio</label>
+              <input
+                type="number"
+                name="start-total"
+                id="start-total"
+                placeholder="Ingresa aquí el número"
+                required
+              />
+            </p>
+            <p>
+              <label for="start-program-one">Programa 1</label>
+              <input
+                type="number"
+                name="start-program-one"
+                id="start-program-one"
+                placeholder="Ingresa aquí el número"
+                required
+              />
+            </p>
+            <p>
+              <label for="start-program-two">Programa 2</label>
+              <input
+                type="number"
+                name="start-program-two"
+                id="start-program-two"
+                placeholder="Ingresa aquí el número"
+                required
+              />
+            </p>
+            <button
+              type="submit"
+              id="send-data-button"
+              class="button"
+            >
+              Guardar Datos
+            </button>
+          </form>
+          <div
+            id="initialStateInfo"
+            class="initial-state-info"
+          >
+            <h3>Numeral Inicio de Turno</h3>
+            <div id="initialDataInfoContainer">
+              <p><span>Total</span><span></span></p>
+              <p><span>Programa 1</span><span></span></p>
+              <p><span>Programa 2</span><span></span></p>
+              <p><span>Fecha</span><span></span></p>
+            </div>
+          </div>
+          <button
+            id="resetButton"
+            class="button"
+          >
+            Borrar datos del turno
           </button>
-        </form>
-        <div
-          id="initialStateInfo"
-          class="start-shift-info"
-        >
-          <h3>Datos inicio de turno</h3>
-          <p>Total</p>
-          <p>Programa 1</p>
-          <p>Programa 2</p>
-          <p>Fecha de registro</p>
-        </div>
-        <button id="resetButton">Borrar Datos</button>
-      </section>
-      <section>
-        <h2>Fin de Turno</h2>
-        <form
-          id="finalStateForm"
-          class="form"
-        >
-          <label for="end-total">Total Final</label>
-          <input
-            type="number"
-            name="end-total"
-            id="end-total"
-            required
-          />
-          <label for="end-program-one">Programa 1</label>
-          <input
-            type="number"
-            name="end-program-one"
-            id="end-program-one"
-            required
-          />
-          <label for="end-program-two">Programa 2</label>
-          <input
-            type="number"
-            name="end-program-two"
-            id="end-program-two"
-            required
-          />
-          <button type="submit">Cuadrar</button>
-        </form>
-      </section>
-
-      <section id="result-section"></section>
+        </section>
+        <section id="finalStateContainer">
+          <h2>Fin de Turno</h2>
+          <form
+            id="finalStateForm"
+            class="form"
+          >
+            <p>
+              <label for="end-total">Total Final</label>
+              <input
+                type="number"
+                name="end-total"
+                id="end-total"
+                placeholder="Ingresa aquí el número"
+                required
+              />
+            </p>
+            <p>
+              <label for="end-program-one">Programa 1</label>
+              <input
+                type="number"
+                name="end-program-one"
+                id="end-program-one"
+                placeholder="Ingresa aquí el número"
+                required
+              />
+            </p>
+            <p>
+              <label for="end-program-two">Programa 2</label>
+              <input
+                type="number"
+                name="end-program-two"
+                id="end-program-two"
+                placeholder="Ingresa aquí el número"
+                required
+              />
+            </p>
+            <button
+              type="submit"
+              class="button"
+            >
+              Cuadrar
+            </button>
+          </form>
+        </section>
+      </div>
     </main>
-
-    <script
-      src="script.js"
-      type="text/javascript"
-      charset="utf-8"
-    ></script>
+    <footer class="footer flex-center">
+      <p>
+        Desarrollado por
+        <a
+          href="https://marioprogramador.vercel.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Mario Programador</a
+        >
+      </p>
+    </footer>
+    <script src="script.js"></script>
   </body>
 </html>

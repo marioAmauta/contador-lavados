@@ -1,33 +1,41 @@
 const initialStateForm = document.getElementById('initialStateForm');
 const initialStateInfo = document.getElementById('initialStateInfo');
+const initialDataInfoContainer = document.getElementById('initialDataInfoContainer');
+
 const initialStateDataName = 'initialStateData';
 
+const finalStateContainer = document.getElementById('finalStateContainer');
 const finalStateForm = document.getElementById('finalStateForm');
 
 const resetButton = document.getElementById('resetButton');
 
 function setInitialStateInfo(data) {
-  const firstParagraph = initialStateInfo.children[1];
-  const secondParagraph = initialStateInfo.children[2];
-  const thirdParagraph = initialStateInfo.children[3];
-  const fourthParagraph = initialStateInfo.children[4];
+  const firstParagraph = initialDataInfoContainer.children[0].children[1];
+  const secondParagraph = initialDataInfoContainer.children[1].children[1];
+  const thirdParagraph = initialDataInfoContainer.children[2].children[1];
+  const fourthParagraph = initialDataInfoContainer.children[3].children[1];
 
-  firstParagraph.textContent = `Total: ${data.startTotal}`;
-  secondParagraph.textContent = `Programa 1: ${data.programOne}`;
-  thirdParagraph.textContent = `Programa 2: ${data.programTwo}`;
-  fourthParagraph.textContent = `Fecha de registro: ${data.recordDate}`;
+  firstParagraph.textContent = data.startTotal;
+  secondParagraph.textContent = data.programOne;
+  thirdParagraph.textContent = data.programTwo;
+  fourthParagraph.textContent = data.recordDate;
 }
 
 function checkInitialStateData() {
   if (localStorage.getItem(initialStateDataName)) {
     const data = JSON.parse(localStorage.getItem(initialStateDataName));
     setInitialStateInfo(data);
+
     initialStateForm.classList.add('display-none');
     initialStateInfo.classList.remove('display-none');
+
+    finalStateContainer.classList.remove('display-none');
   } else {
     initialStateForm.reset();
     initialStateInfo.classList.add('display-none');
     initialStateForm.classList.remove('display-none');
+
+    finalStateContainer.classList.add('display-none');
   }
 }
 
@@ -54,51 +62,32 @@ function handleFinalStateForm() {
   };
 
   const resultData = {
-    totalResult: shiftEndData.endTotal - shiftStartDataLocalStorage.startTotal,
-    programOneResult: shiftEndData.programOne - shiftStartDataLocalStorage.programOne,
-    programTwoResult: shiftEndData.programTwo - shiftStartDataLocalStorage.programTwo
+    totalResult: finalStateData.endTotal - shiftStartDataLocalStorage.startTotal,
+    programOneResult: finalStateData.programOne - shiftStartDataLocalStorage.programOne,
+    programTwoResult: finalStateData.programTwo - shiftStartDataLocalStorage.programTwo
   };
 }
 
-checkInitialStateData();
+document.addEventListener('DOMContentLoaded', () => {
+  checkInitialStateData();
 
-document.addEventListener('submit', event => {
-  event.preventDefault();
+  document.addEventListener('submit', event => {
+    event.preventDefault();
 
-  if (event.target.id === initialStateForm.id) {
-    handleInitialStateForm();
-  }
+    if (event.target.id === initialStateForm.id) {
+      handleInitialStateForm();
+    }
 
-  if (event.target.id === finalStateForm.id) {
-    handleFinalStateForm();
-  }
-});
+    if (event.target.id === finalStateForm.id) {
+      handleFinalStateForm();
+    }
+  });
 
-finalStateForm.addEventListener('submit', event => {
-  event.preventDefault();
-
-  const resultData = {
-    totalResult: shiftEndData.endTotal - shiftStartDataLocalStorage.startTotal,
-    programOneResult: shiftEndData.programOne - shiftStartDataLocalStorage.programOne,
-    programTwoResult: shiftEndData.programTwo - shiftStartDataLocalStorage.programTwo
-  };
-
-  console.log('shiftStartDataLocalStorage', shiftStartDataLocalStorage);
-  console.log('shiftEndData', shiftEndData);
-  console.log('resultData', resultData);
-
-  resultSection.innerHTML = `
-    <h3>Datos inicio de turno</h3>
-    <p>Total: ${resultData.startTotal}</p>
-    <p>Programa 1: ${resultData.programOne}</p>
-    <p>Programa 2: ${resultData.programTwo}</p>
-    `;
-});
-
-resetButton.addEventListener('click', () => {
-  if (confirm('¿Deseas eliminar los datos de inicio del turno?')) {
-    localStorage.removeItem(initialStateDataName);
-    checkInitialStateData();
-  }
-  return;
+  resetButton.addEventListener('click', () => {
+    if (confirm('¿Deseas eliminar los datos de inicio del turno?')) {
+      localStorage.removeItem(initialStateDataName);
+      checkInitialStateData();
+    }
+    return;
+  });
 });
