@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <meta
+      http-equiv="content-type"
+      content="text/html; charset=utf-8"
+    />
+    <title>Contador de Lavados</title>
+    <link
+      rel="stylesheet"
+      href="styles.css"
+      type="text/css"
+      media="all"
+    />
+  </head>
+  <body>
+    <header class="header">
+      <h1>Contador de Lavados</h1>
+    </header>
+    <main class="main">
+      <section>
+        <h2>Inicio de Turno</h2>
+        <form
+          id="initialStateForm"
+          class="form"
+        >
+          <label for="start-total">Total Inicio</label>
+          <input
+            type="number"
+            name="start-total"
+            id="start-total"
+            required
+          />
+          <label for="start-program-one">Programa 1</label>
+          <input
+            type="number"
+            name="start-program-one"
+            id="start-program-one"
+            required
+          />
+          <label for="start-program-two">Programa 2</label>
+          <input
+            type="number"
+            name="start-program-two"
+            id="start-program-two"
+            required
+          />
+          <button
+            type="submit"
+            id="send-data-button"
+          >
+            Guardar Datos
+          </button>
+        </form>
+        <div
+          id="initialStateInfo"
+          class="start-shift-info"
+        >
+          <h3>Datos inicio de turno</h3>
+          <p>Total</p>
+          <p>Programa 1</p>
+          <p>Programa 2</p>
+          <p>Fecha de registro</p>
+        </div>
+        <button id="resetButton">Borrar Datos</button>
+      </section>
+      <section>
+        <h2>Fin de Turno</h2>
+        <form
+          id="finalStateForm"
+          class="form"
+        >
+          <label for="end-total">Total Final</label>
+          <input
+            type="number"
+            name="end-total"
+            id="end-total"
+            required
+          />
+          <label for="end-program-one">Programa 1</label>
+          <input
+            type="number"
+            name="end-program-one"
+            id="end-program-one"
+            required
+          />
+          <label for="end-program-two">Programa 2</label>
+          <input
+            type="number"
+            name="end-program-two"
+            id="end-program-two"
+            required
+          />
+          <button type="submit">Cuadrar</button>
+        </form>
+      </section>
+
+      <section id="result-section"></section>
+    </main>
+
+    <script
+      src="script.js"
+      type="text/javascript"
+      charset="utf-8"
+    ></script>
+  </body>
+</html>

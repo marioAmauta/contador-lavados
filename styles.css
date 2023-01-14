@@ -1,0 +1,40 @@
+html {
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+  outline: 1px solid black;
+}
+
+body {
+  font-family: Sans-Serif;
+  font-size: 16px;
+  background-color: lightgray;
+  text-align: center;
+}
+
+.main {
+  max-width: 800px;
+}
+
+.header {
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  margin: 0 2rem;
+  padding: 1rem;
+}
+
+.display-none {
+  display: none;
+}
+
+.start-shift-info {
+  padding: 2rem;
+}
