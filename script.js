@@ -1,116 +1,215 @@
-const initialStateDataName = 'initialStateData';
+const initialStateDataStorageKey = 'initialStateData';
+const $initialStateForm = document.getElementById('initialStateForm');
+const $initialStateInfoContainer = document.getElementById('initialStateInfoContainer').children;
+const $saveInitialDataButton = document.getElementById('saveInitialDataButton');
+const $resetInitialFormButton = document.getElementById('resetInitialFormButton');
+const $deleteInitialDataButton = document.getElementById('deleteInitialDataButton');
 
-const initialStateForm = document.getElementById('initialStateForm');
-const initialStateInfo = document.getElementById('initialStateInfo');
-const initialDataInfoContainer = document.getElementById('initialDataInfoContainer');
+const finalStateDataStorageKey = 'finalStateData';
+const $finalStateForm = document.getElementById('finalStateForm');
+const $finalStateInfoContainer = document.getElementById('finalStateInfoContainer').children;
+const $saveFinalDataButton = document.getElementById('saveFinalDataButton');
+const $resetFinalFormButton = document.getElementById('resetFinalFormButton');
+const $deleteFinalDataButton = document.getElementById('deleteFinalDataButton');
 
-const finalStateForm = document.getElementById('finalStateForm');
-const finalStateInfo = document.getElementById('finalStateInfo');
-const finalDataInfoContainer = document.getElementById('finalDataInfoContainer');
-const finalStateContainer = document.getElementById('finalStateContainer');
+const resultDataStorageKey = 'resultData';
+const $resultSection = document.getElementById('resultSection');
+const $resultDataContainer = document.getElementById('resultDataContainer').children;
+const $getResultButton = document.getElementById('getResultButton');
+const $deleteAllDataButton = document.getElementById('deleteAllDataButton');
 
-const resetButton = document.getElementById('resetButton');
-
-function setInitialStateInfo(data) {
-  const total = initialDataInfoContainer.children[0].children[1];
-  const programOne = initialDataInfoContainer.children[1].children[1];
-  const programTwo = initialDataInfoContainer.children[2].children[1];
-  const date = initialDataInfoContainer.children[3].children[1];
-
-  total.textContent = data.startTotal;
-  programOne.textContent = data.programOne;
-  programTwo.textContent = data.programTwo;
-  date.textContent = data.recordDate;
+function getLocalStorageValue(storageKey) {
+  return localStorage.getItem(storageKey);
 }
 
-function setFinalStateInfo(data) {
-  const total = finalDataInfoContainer.children[0].children[1];
-  const programOne = finalDataInfoContainer.children[1].children[1];
-  const programTwo = finalDataInfoContainer.children[2].children[1];
-
-  total.textContent = data.totalResult;
-  programOne.textContent = data.programOneResult;
-  programTwo.textContent = data.programTwoResult;
+function setLocalStorageValue(storageKey, value) {
+  return localStorage.setItem(storageKey, value);
 }
 
-function checkInitialStateData() {
-  if (localStorage.getItem(initialStateDataName)) {
-    const data = JSON.parse(localStorage.getItem(initialStateDataName));
-    setInitialStateInfo(data);
+function getParsedDataFromLocalStorage(storageKey) {
+  return JSON.parse(getLocalStorageValue(storageKey));
+}
 
-    initialStateForm.classList.add('display-none');
-    initialStateInfo.classList.remove('display-none');
+function stringifyDataForLocalStorage(data) {
+  return JSON.stringify(data);
+}
 
-    finalStateContainer.classList.remove('display-none');
-    finalStateInfo.classList.add('display-none');
+function checkLocalStorage() {
+  const resetInfoData = {
+    numericValues: {
+      total: 0,
+      programOne: 0,
+      programTwo: 0
+    },
+    date: 'Sin Fecha'
+  };
+
+  if (getLocalStorageValue(initialStateDataStorageKey)) {
+    setStateInfo($initialStateInfoContainer, getParsedDataFromLocalStorage(initialStateDataStorageKey));
+    $initialStateForm.classList.add('display-none');
   } else {
-    initialStateForm.reset();
-    initialStateInfo.classList.add('display-none');
-    initialStateForm.classList.remove('display-none');
+    setStateInfo($initialStateInfoContainer, resetInfoData);
+    $initialStateForm.classList.remove('display-none');
+  }
 
-    finalStateContainer.classList.add('display-none');
+  if (getLocalStorageValue(finalStateDataStorageKey)) {
+    setStateInfo($finalStateInfoContainer, getParsedDataFromLocalStorage(finalStateDataStorageKey));
+    $finalStateForm.classList.add('display-none');
+  } else {
+    setStateInfo($finalStateInfoContainer, resetInfoData);
+    $finalStateForm.classList.remove('display-none');
+  }
+
+  if (getLocalStorageValue(resultDataStorageKey)) {
+    setStateInfo($resultDataContainer, getParsedDataFromLocalStorage(resultDataStorageKey));
+    $resultSection?.classList.remove('display-none');
+  } else {
+    setStateInfo($resultDataContainer, resetInfoData);
+    $resultSection?.classList.add('display-none');
+  }
+
+  console.log('data checked');
+}
+
+function saveDataToLocalStorage(storageKey, data, result = false) {
+  const isDataInvalid = Object.values(data.numericValues).some(value => isNaN(value));
+
+  if (isDataInvalid) {
+    alert('Todos los campos deben ser llenados');
+    return;
+  }
+
+  if (getLocalStorageValue(storageKey)) {
+    if (confirm('Ya hay datos guardados, ¿Deseas reemplazarlos?')) {
+      setLocalStorageValue(storageKey, stringifyDataForLocalStorage(data));
+      if (!result) {
+        alert('Datos reemplazados correctamente');
+      }
+      checkLocalStorage();
+    }
+    return;
+  }
+
+  setLocalStorageValue(storageKey, stringifyDataForLocalStorage(data));
+  if (!result) {
+    alert('Datos guardados correctamente');
+  }
+  checkLocalStorage();
+}
+
+function deleteFromLocalStorage(storageKey, message = null) {
+  if (storageKey.length === 3) {
+    if (confirm('¿Estas seguro que quires eliminar todos los datos?')) {
+      storageKey.map(key => {
+        localStorage.removeItem(key);
+      });
+      checkLocalStorage();
+    }
+  } else {
+    if (confirm(message)) {
+      localStorage.removeItem(storageKey);
+      checkLocalStorage();
+    }
   }
 }
 
-function handleInitialStateForm() {
-  const initialStateData = {
-    startTotal: initialStateForm[0].valueAsNumber,
-    programOne: initialStateForm[1].valueAsNumber,
-    programTwo: initialStateForm[2].valueAsNumber,
-    recordDate: new Date().toLocaleString()
-  };
-
-  const stringifiedData = JSON.stringify(initialStateData);
-  localStorage.setItem(initialStateDataName, stringifiedData);
-
-  alert('Datos guardados correctamente');
-  checkInitialStateData();
+function resetForm(formToReset) {
+  if (confirm('Deseas limpiar el formulario?')) {
+    formToReset.reset();
+  }
+  return;
 }
 
-function handleFinalStateForm() {
-  const finalStateData = {
-    endTotal: finalStateForm[0].valueAsNumber,
-    programOne: finalStateForm[1].valueAsNumber,
-    programTwo: finalStateForm[2].valueAsNumber
-  };
+function setStateInfo(stateInfoContainer, data) {
+  const total = stateInfoContainer[0].children[1];
+  const programOne = stateInfoContainer[1].children[1];
+  const programTwo = stateInfoContainer[2].children[1];
+  const date = stateInfoContainer[3].children[1];
 
-  const savedData = JSON.parse(localStorage.getItem(initialStateDataName));
+  total.textContent = data?.numericValues.total;
+  programOne.textContent = data?.numericValues.programOne;
+  programTwo.textContent = data?.numericValues.programTwo;
+  date.textContent = data?.date;
+}
+
+function handleStateForm(form, storageKey, stateInfoCard, reset = false, result = false) {
+  if (!reset) {
+    const stateInfoData = {
+      numericValues: {
+        total: form[0].valueAsNumber,
+        programOne: form[1].valueAsNumber,
+        programTwo: form[2].valueAsNumber
+      },
+      date: new Date().toLocaleString()
+    };
+
+    saveDataToLocalStorage(storageKey, stateInfoData);
+    setStateInfo(stateInfoCard, getParsedDataFromLocalStorage(storageKey));
+    checkLocalStorage();
+  } else {
+    resetForm(form);
+  }
+}
+
+function getResult() {
+  const initialStateData = getParsedDataFromLocalStorage(initialStateDataStorageKey);
+  const finalStateData = getParsedDataFromLocalStorage(finalStateDataStorageKey);
+
+  if (!initialStateData && !finalStateData) {
+    alert('No hay datos, llena los formularios y vuelve a intentar');
+    return;
+  }
 
   const resultData = {
-    totalResult: finalStateData.endTotal - savedData.startTotal,
-    programOneResult: finalStateData.programOne - savedData.programOne,
-    programTwoResult: finalStateData.programTwo - savedData.programTwo
+    numericValues: {
+      total: finalStateData.numericValues.total - initialStateData.numericValues.total,
+      programOne: finalStateData.numericValues.programOne - initialStateData.numericValues.programOne,
+      programTwo: finalStateData.numericValues.programTwo - initialStateData.numericValues.programTwo
+    },
+    date: new Date().toLocaleString()
   };
 
-  console.log(resultData);
-
-  setFinalStateInfo(resultData);
-
-  finalStateContainer.classList.remove('display-none');
-  finalStateForm.classList.add('display-none');
-  finalStateInfo.classList.remove('display-none');
+  saveDataToLocalStorage(resultDataStorageKey, resultData, true);
+  setStateInfo($resultDataContainer, getParsedDataFromLocalStorage(resultDataStorageKey));
+  checkLocalStorage();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  checkInitialStateData();
+  checkLocalStorage();
 
-  document.addEventListener('submit', event => {
+  document.addEventListener('click', event => {
     event.preventDefault();
 
-    if (event.target.id === initialStateForm.id) {
-      handleInitialStateForm();
+    if (event.target.id === $saveInitialDataButton.id) {
+      handleStateForm($initialStateForm, initialStateDataStorageKey, $initialStateInfoContainer);
     }
 
-    if (event.target.id === finalStateForm.id) {
-      handleFinalStateForm();
+    if (event.target.id === $resetInitialFormButton.id) {
+      handleStateForm($initialStateForm, initialStateDataStorageKey, $initialStateInfoContainer, true);
     }
-  });
 
-  resetButton.addEventListener('click', () => {
-    if (confirm('¿Deseas eliminar los datos de inicio del turno?')) {
-      localStorage.removeItem(initialStateDataName);
-      checkInitialStateData();
+    if (event.target.id === $deleteInitialDataButton.id) {
+      deleteFromLocalStorage(initialStateDataStorageKey, '¿Deseas eliminar el numeral inicial?');
     }
-    return;
+
+    if (event.target.id === $saveFinalDataButton.id) {
+      handleStateForm($finalStateForm, finalStateDataStorageKey, $finalStateInfoContainer);
+    }
+
+    if (event.target.id === $resetFinalFormButton.id) {
+      handleStateForm($finalStateForm, finalStateDataStorageKey, $finalStateInfoContainer, true);
+    }
+
+    if (event.target.id === $deleteFinalDataButton.id) {
+      deleteFromLocalStorage(finalStateDataStorageKey, '¿Deseas eliminar el numeral final?');
+    }
+
+    if (event.target.id === $getResultButton.id) {
+      getResult();
+    }
+
+    if (event.target.id === $deleteAllDataButton.id) {
+      deleteFromLocalStorage([initialStateDataStorageKey, finalStateDataStorageKey, resultDataStorageKey]);
+    }
   });
 });

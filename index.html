@@ -10,11 +10,15 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0"
     />
-    <title>Contador de Lavados</title>
+    <meta
+      name="theme-color"
+      content="black"
+    />
     <link
       rel="stylesheet"
       href="styles.css"
     />
+    <title>Contador de Lavados</title>
   </head>
   <body>
     <header class="header flex-center">
@@ -27,121 +31,167 @@
     <main class="main">
       <div class="inner-container">
         <h1>Lavados</h1>
+        <h2>Clave Maquina: 1196</h2>
         <section>
           <h2>Inicio de Turno</h2>
           <form
             id="initialStateForm"
-            class="form"
+            class="info-container"
           >
             <p>
-              <label for="start-total">Total Inicio</label>
+              <label for="initialTotal">Total Inicio</label>
               <input
                 type="number"
-                name="start-total"
-                id="start-total"
+                name="initialTotal"
+                id="initialTotal"
                 placeholder="Ingresa aquí el número"
                 required
               />
             </p>
             <p>
-              <label for="start-program-one">Programa 1</label>
+              <label for="initialProgramOne">Programa 1</label>
               <input
                 type="number"
-                name="start-program-one"
-                id="start-program-one"
+                name="initialProgramOne"
+                id="initialProgramOne"
                 placeholder="Ingresa aquí el número"
                 required
               />
             </p>
             <p>
-              <label for="start-program-two">Programa 2</label>
+              <label for="initialProgramTwo">Programa 2</label>
               <input
                 type="number"
-                name="start-program-two"
-                id="start-program-two"
+                name="initialProgramTwo"
+                id="initialProgramTwo"
                 placeholder="Ingresa aquí el número"
                 required
               />
             </p>
             <button
-              type="submit"
-              id="send-data-button"
+              id="saveInitialDataButton"
               class="button"
             >
               Guardar Datos
             </button>
+            <button
+              id="resetInitialFormButton"
+              class="button"
+            >
+              Limpiar Formulario
+            </button>
           </form>
-          <div
-            id="initialStateInfo"
-            class="initial-state-info"
-          >
+          <div class="info-container">
             <h3>Numeral Inicio de Turno</h3>
-            <div id="initialDataInfoContainer">
-              <p><span>Total</span><span></span></p>
-              <p><span>Programa 1</span><span></span></p>
-              <p><span>Programa 2</span><span></span></p>
-              <p><span>Fecha</span><span></span></p>
+            <div
+              id="initialStateInfoContainer"
+              class="data-container"
+            >
+              <p><span>Total</span><span>0</span></p>
+              <p><span>Programa 1</span><span>0</span></p>
+              <p><span>Programa 2</span><span>0</span></p>
+              <p><span>Fecha</span><span>Sin Fecha</span></p>
+              <button
+                id="deleteInitialDataButton"
+                class="button"
+              >
+                Borrar Datos
+              </button>
             </div>
           </div>
-          <button
-            id="resetButton"
-            class="button"
-          >
-            Borrar datos del turno
-          </button>
         </section>
-        <section id="finalStateContainer">
+        <section>
           <h2>Fin de Turno</h2>
           <form
             id="finalStateForm"
-            class="form"
+            class="info-container"
           >
             <p>
-              <label for="end-total">Total Final</label>
+              <label for="finalTotal">Total Final</label>
               <input
                 type="number"
-                name="end-total"
-                id="end-total"
+                name="finalTotal"
+                id="finalTotal"
                 placeholder="Ingresa aquí el número"
                 required
               />
             </p>
             <p>
-              <label for="end-program-one">Programa 1</label>
+              <label for="finalProgramOne">Programa 1</label>
               <input
                 type="number"
-                name="end-program-one"
-                id="end-program-one"
+                name="finalProgramOne"
+                id="finalProgramOne"
                 placeholder="Ingresa aquí el número"
                 required
               />
             </p>
             <p>
-              <label for="end-program-two">Programa 2</label>
+              <label for="finalProgramTwo">Programa 2</label>
               <input
                 type="number"
-                name="end-program-two"
-                id="end-program-two"
+                name="finalProgramTwo"
+                id="finalProgramTwo"
                 placeholder="Ingresa aquí el número"
                 required
               />
             </p>
             <button
-              type="submit"
+              id="saveFinalDataButton"
               class="button"
             >
-              Cuadrar
+              Guardar Datos
+            </button>
+            <button
+              id="resetFinalFormButton"
+              class="button"
+            >
+              Limpiar Formulario
             </button>
           </form>
-          <div
-            id="finalStateInfo"
-            class="initial-state-info"
-          >
+          <div class="info-container">
+            <h3>Numeral Fin de Turno</h3>
+            <div
+              id="finalStateInfoContainer"
+              class="data-container"
+            >
+              <p><span>Total</span><span>0</span></p>
+              <p><span>Programa 1</span><span>0</span></p>
+              <p><span>Programa 2</span><span>0</span></p>
+              <p><span>Fecha</span><span>Sin fecha</span></p>
+              <button
+                id="deleteFinalDataButton"
+                class="button"
+              >
+                Borrar Datos
+              </button>
+            </div>
+          </div>
+        </section>
+        <button
+          id="getResultButton"
+          class="button"
+        >
+          Cuadrar
+        </button>
+        <button
+          id="deleteAllDataButton"
+          class="button"
+        >
+          Borrar datos del turno
+        </button>
+        <section id="resultSection">
+          <h2>Resultado</h2>
+          <div class="info-container">
             <h3>Lavados Realizados</h3>
-            <div id="finalDataInfoContainer">
-              <p><span>Total</span><span></span></p>
-              <p><span>Programa 1</span><span></span></p>
-              <p><span>Programa 2</span><span></span></p>
+            <div
+              id="resultDataContainer"
+              class="data-container"
+            >
+              <p><span>Total</span><span>0</span></p>
+              <p><span>Programa 1</span><span>0</span></p>
+              <p><span>Programa 2</span><span>0</span></p>
+              <p><span>Fecha</span><span>Sin fecha</span></p>
             </div>
           </div>
         </section>
