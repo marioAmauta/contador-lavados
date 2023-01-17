@@ -1,3 +1,5 @@
+const $innerContainer = document.querySelector('.inner-container');
+
 const initialStateDataStorageKey = 'initialStateData';
 const $initialStateForm = document.getElementById('initialStateForm');
 const $initialStateInfoContainer = document.getElementById('initialStateInfoContainer').children;
@@ -67,8 +69,6 @@ function checkLocalStorage() {
     setStateInfo($resultDataContainer, resetInfoData);
     $resultSection?.classList.add('display-none');
   }
-
-  console.log('data checked');
 }
 
 function saveDataToLocalStorage(storageKey, data, result = false) {
@@ -177,7 +177,7 @@ function getResult() {
 document.addEventListener('DOMContentLoaded', () => {
   checkLocalStorage();
 
-  document.addEventListener('click', event => {
+  $innerContainer.addEventListener('click', event => {
     event.preventDefault();
 
     if (event.target.id === $saveInitialDataButton.id) {
